@@ -19,7 +19,7 @@ ADMIN_ACTIVE = True
 BOT_VERSION = "5.0 Premium++"
 
 # === CẤU HÌNH TELEGRAM ===
-BOT_TOKEN = "8076967422:AAEVRuNoBEHYAxtsNxg0rGCj4MdnM4TnDuM"
+BOT_TOKEN = "7028898952:AAHPg6d0GFy6yMCwIkn0dtYT3l8ezQmaCY8"
 
 # === BIỂU TƯỢNG EMOJI ===
 EMOJI = {
@@ -578,7 +578,7 @@ def on_message(ws, message):
         log_message(error_msg)
 
 def background_task():
-    ws_url = "ws://163.61.110.10:8000/game_sunwin/ws?id=Cstooldudoan11&key="
+    ws_url = "ws://163.61.110.10:8000/game_sunwin/ws?id=Cstooldudoan11&key=duyduy221290"
     reconnect_delay = 5
     while True:
         try:
@@ -954,8 +954,8 @@ def main():
     c = conn.cursor()
     c.execute("SELECT COUNT(*) FROM admins")
     if c.fetchone()[0] == 0:
-        print(f"{EMOJI['admin']} Thêm admin đầu tiên với ID: 6381480476")
-        c.execute("INSERT INTO admins (chat_id) VALUES (?)", ("6381480476",))
+        print(f"{EMOJI['admin']} Thêm admin đầu tiên với ID: 7761915412")
+        c.execute("INSERT INTO admins (chat_id) VALUES (?)", ("7761915412",))
         conn.commit()
     conn.close()
 
@@ -964,7 +964,7 @@ def main():
     print(f"{EMOJI['diamond']} {'*'*20} {EMOJI['diamond']}\n")
     print(f"{EMOJI['settings']} Phiên bản: {BOT_VERSION}")
     print(f"{EMOJI['chart']} Hệ thống phân tích nâng cao")
-    print(f"{EMOJI['team']} Phát triển bởi AE HTDD Team\n")
+    print(f"{EMOJI['team']} Phát triển bởi deobiet\n")
     print(f"{EMOJI['bell']} Bot đã sẵn sàng hoạt động!")
 
     threading.Thread(target=background_task, daemon=True).start()
