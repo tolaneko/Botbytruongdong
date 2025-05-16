@@ -631,8 +631,8 @@ def handle_telegram_updates():
                             )
                             
                             buttons = [
-                                [{"text": f"{EMOJI['key']} Hướng dẫn kích hoạt", "callback_data": "help_activate"}],
-                                [{"text": f"{EMOJI['money_bag']} Liên hệ mua key", "url": "https://t.me/truongdong1920"}]
+                                [{"text": f"{EMOJI['key']} Hướng dẫn kích hoạt", "url": "https://anotepad.com"}],
+                                [{"text": f"{EMOJI['money_bag']} Liên hệ mua key", "url": "https://t.me/qqaassdd1231"}]
                             ]
                             
                             send_telegram_with_buttons(chat_id, welcome_message, buttons)
