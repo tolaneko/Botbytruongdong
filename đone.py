@@ -23,7 +23,7 @@ FORMULA_WEIGHTS = {i: 1.0 for i in range(153)}  # Trọng số 153 công thức
 CURRENT_MODE = "vip"  # Chế độ mặc định
 
 # === CẤU HÌNH TELEGRAM ===
-BOT_TOKEN = "8076967422:AAEVRuNoBEHYAxtsNxg0rGCj4MdnM4TnDuM"
+BOT_TOKEN = "7028898952:AAGqXLgcuCi_otIakvn0M0BvTFK-oFuMSTQ"
 
 # === BIỂU TƯỢNG EMOJI ===
 EMOJI = {
@@ -1541,8 +1541,8 @@ def main():
     c = conn.cursor()
     c.execute("SELECT COUNT(*) FROM admins")
     if c.fetchone()[0] == 0:
-        print(f"{EMOJI['admin']} Thêm admin đầu tiên với ID: 6381480476")
-        c.execute("INSERT INTO admins (chat_id) VALUES (?)", ("6381480476",))
+        print(f"{EMOJI['admin']} Thêm admin đầu tiên với ID: 7761915412")
+        c.execute("INSERT INTO admins (chat_id) VALUES (?)", ("7761915412",))
         conn.commit()
     conn.close()
 
@@ -1551,7 +1551,7 @@ def main():
     print(f"{EMOJI['diamond']} {'*'*20} {EMOJI['diamond']}\n")
     print(f"{EMOJI['settings']} Phiên bản: {BOT_VERSION}")
     print(f"{EMOJI['chart']} Hệ thống phân tích nâng cao")
-    print(f"{EMOJI['team']} Phát triển bởi AE HTDD Team\n")
+    print(f"{EMOJI['team']} Phát triển bởi ??????\n")
     print(f"{EMOJI['bell']} Bot đã sẵn sàng hoạt động!")
 
     # Khởi chạy các luồng xử lý
