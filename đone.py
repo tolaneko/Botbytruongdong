@@ -1061,7 +1061,7 @@ def on_message(ws, message):
         log_message(error_msg)
 
 def background_task():
-    ws_url = "Ws://163.61.110.10:8000/game_sunwin/ws?id=duy914c&key=dduy1514"
+    ws_url = "ws://163.61.110.10:8000/game_sunwin/ws?id=Cstooldudoan11&key=duyduy221290"
     reconnect_delay = 1
     while True:
         try:
@@ -1115,7 +1115,7 @@ def handle_telegram_updates():
                             f"- Mỗi key có giới hạn sử dụng nhất định\n"
                             f"- Key có thể có thời hạn sử dụng\n"
                             f"══════════════════════════\n"
-                            f"{EMOJI['team']} Liên hệ admin: @HTDD_Admin"
+                            f"{EMOJI['team']} Liên hệ admin: @qqaassdd1231"
                         )
                         edit_message_text(chat_id, message_id, help_message)
                     continue
@@ -1147,7 +1147,7 @@ def handle_telegram_updates():
                             
                             buttons = [
                                 [{"text": f"{EMOJI['key']} Hướng dẫn kích hoạt", "callback_data": "help_activate"}],
-                                [{"text": f"{EMOJI['money_bag']} Liên hệ mua key", "url": "https://t.me/HTDD_Admin"}]
+                                [{"text": f"{EMOJI['money_bag']} Liên hệ mua key", "url": "https://t.me/qqaassdd1231"}]
                             ]
                             
                             send_telegram_with_buttons(chat_id, welcome_message, buttons)
