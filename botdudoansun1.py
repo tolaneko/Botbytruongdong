@@ -23,7 +23,7 @@ FORMULA_WEIGHTS = {i: 1.0 for i in range(153)}  # Trọng số 153 công thức
 CURRENT_MODE = "vip"  # Chế độ mặc định
 
 # === CẤU HÌNH TELEGRAM ===
-BOT_TOKEN = "8091089865:AAGR80WGDV37fzGe_k2hA1RP1P4ir_H3TUg"
+BOT_TOKEN = "" #add bot token here
 
 # === BIỂU TƯỢNG EMOJI ===
 EMOJI = {
@@ -1061,7 +1061,7 @@ def on_message(ws, message):
         log_message(error_msg)
 
 def background_task():
-    ws_url = "ws://163.61.110.10:8000/game_sunwin/ws?id=Cstooldudoan11&key=duy628duy51428v"
+    ws_url = "" #add websocket here
     reconnect_delay = 1
     while True:
         try:
