@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, timezone
 import uuid
 import random
 import re
-from statistics import mean
+from statistics import mean, mode
 
 # === CẤU HÌNH CHÍNH ===
 USER_STATES = {}  # Lưu trữ trạng thái từng người dùng
