@@ -508,7 +508,9 @@ def predict_next(history, vip_mode=False):
     all_dice = [d for s in history for d in s["dice"]]
     dice_freq = [all_dice.count(i) for i in range(1,7)]
     avg_total = mean(totals)
-    
+    median_total = sorted(totals)[len(totals) // 2]
+    trend = sum(1 if totals[i] > totals[i + 1] else -1 for i in range(len(totals) - 1))
+
     predictions = []
     if vip_mode:
         # 153 công thức VIP
