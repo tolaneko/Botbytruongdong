@@ -91,6 +91,20 @@ PATTERN_DATA = {
     "txtx": {"tai": 60, "xiu": 40}, "xtxt": {"tai": 40, "xiu": 60},
     "txtxt": {"tai": 65, "xiu": 35}, "xtxtx": {"tai": 35, "xiu": 65},
     "txtxtxt": {"tai": 70, "xiu": 30}, "xtxtxtx": {"tai": 30, "xiu": 70}
+
+    #ttt
+    "tttt": {"tai": 73, "xiu": 27}, "xxxx": {"tai": 27, "xiu": 73},
+    "tttttt": {"tai": 83, "xiu": 17}, "xxxxxx": {"tai": 17, "xiu": 83},
+    "ttttx": {"tai": 40, "xiu": 60}, "xxxxt": {"tai": 60, "xiu": 40},
+    "ttttttx": {"tai": 30, "xiu": 70}, "xxxxxxt": {"tai": 70, "xiu": 30},
+    "ttxx": {"tai": 62, "xiu": 38}, "xxtt": {"tai": 38, "xiu": 62},
+    "ttxxtt": {"tai": 32, "xiu": 68}, "xxttxx": {"tai": 68, "xiu": 32},
+    "txx": {"tai": 60, "xiu": 40}, "xtt": {"tai": 40, "xiu": 60},
+    "txxtx": {"tai": 63, "xiu": 37}, "xttxt": {"tai": 37, "xiu": 63},
+    "tttxt": {"tai": 60, "xiu": 40}, "xxxtx": {"tai": 40, "xiu": 60},
+    "tttxx": {"tai": 60, "xiu": 40}, "xxxtt": {"tai": 40, "xiu": 60},
+    "txxt": {"tai": 60, "xiu": 40}, "xttx": {"tai": 40, "xiu": 60},
+    "ttxxttx": {"tai": 30, "xiu": 70}, "xxttxxt": {"tai": 70, "xiu": 30},
 }
 
 # Thuật toán Sunwin đặc biệt
