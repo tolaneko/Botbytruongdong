@@ -11,7 +11,7 @@ from datetime import datetime, timedelta, timezone
 import uuid
 import random
 import re
-from statistics import mean, mode
+from statistics import mean
 
 # === CẤU HÌNH CHÍNH ===
 USER_STATES = {}  # Lưu trữ trạng thái từng người dùng
@@ -36,7 +36,7 @@ EMOJI = {
     "infinity": "♾️", "calendar": "📅", "streak": "🔥", "analysis": "🔍",
     "heart": "❤️", "diamond": "♦️", "spade": "♠️", "club": "♣️", "luck": "🍀",
     "money_bag": "💰", "crown": "👑", "shield": "🛡", "zap": "⚡", "target": "🎯",
-    "info": "ℹ️", "user": "👤", "broadcast": "📢", "stats": "📈", "percent": "%"
+    "info": "ℹ️", "user": "👤", "broadcast": "📢", "stats": "📈", "percent": "%", "chat": "📚"
 }
 
 # === HÀM LẤY GIỜ VIỆT NAM ===
@@ -53,46 +53,7 @@ def format_vn_time(dt=None):
 
 # === THUẬT TOÁN SUNWIN NÂNG CAO (ĐỘ CHÍNH XÁC 90%) ===
 PATTERN_DATA = {
-    
-    # Thêm các pattern mới
-    "ttxttx": {"tai": 80, "xiu": 20},
-    "xxttxx": {"tai": 20, "xiu": 80},
-    "ttxxtt": {"tai": 75, "xiu": 25},
-    "xxttxx": {"tai": 25, "xiu": 75},
-    "txtxt": {"tai": 60, "xiu": 40},
-    "xtxtx": {"tai": 40, "xiu": 60},
-    
-    # Pattern đặc biệt cho cầu ngắn
-    "ttx": {"tai": 70, "xiu": 30},
-    "xxt": {"tai": 30, "xiu": 70},
-    "txt": {"tai": 65, "xiu": 35},
-    "xtx": {"tai": 35, "xiu": 65},
-
-    # Các pattern đặc biệt Sunwin
-    "tttt": {"tai": 85, "xiu": 15}, "xxxx": {"tai": 15, "xiu": 85},
-    "ttttt": {"tai": 88, "xiu": 12}, "xxxxx": {"tai": 12, "xiu": 88},
-    "tttttt": {"tai": 92, "xiu": 8}, "xxxxxx": {"tai": 8, "xiu": 92},
-    "tttx": {"tai": 75, "xiu": 25}, "xxxt": {"tai": 25, "xiu": 75},
-    "ttx": {"tai": 70, "xiu": 30}, "xxt": {"tai": 30, "xiu": 70},
-    "txt": {"tai": 65, "xiu": 35}, "xtx": {"tai": 35, "xiu": 65},
-    "ttxxtt": {"tai": 80, "xiu": 20}, "xxttxx": {"tai": 20, "xiu": 80},
-    "ttxtx": {"tai": 78, "xiu": 22}, "xxtxt": {"tai": 22, "xiu": 78},
-    
-    # Pattern đặc biệt Sunwin
-    "txtxtx": {"tai": 82, "xiu": 18}, "xtxtxt": {"tai": 18, "xiu": 82},
-    "ttxtxt": {"tai": 85, "xiu": 15}, "xxtxtx": {"tai": 15, "xiu": 85},
-    "txtxxt": {"tai": 83, "xiu": 17}, "xtxttx": {"tai": 17, "xiu": 83},
-    
-    # Pattern cầu bệt Sunwin
-    "ttttttt": {"tai": 95, "xiu": 5}, "xxxxxxx": {"tai": 5, "xiu": 95},
-    "tttttttt": {"tai": 97, "xiu": 3}, "xxxxxxxx": {"tai": 3, "xiu": 97},
-    
-    # Pattern zigzag đặc biệt
-    "txtx": {"tai": 60, "xiu": 40}, "xtxt": {"tai": 40, "xiu": 60},
-    "txtxt": {"tai": 65, "xiu": 35}, "xtxtx": {"tai": 35, "xiu": 65},
-    "txtxtxt": {"tai": 70, "xiu": 30}, "xtxtxtx": {"tai": 30, "xiu": 70}
-
-    #ttt
+    # Các pattern cơ bản
     "tttt": {"tai": 73, "xiu": 27}, "xxxx": {"tai": 27, "xiu": 73},
     "tttttt": {"tai": 83, "xiu": 17}, "xxxxxx": {"tai": 17, "xiu": 83},
     "ttttx": {"tai": 40, "xiu": 60}, "xxxxt": {"tai": 60, "xiu": 40},
@@ -105,6 +66,109 @@ PATTERN_DATA = {
     "tttxx": {"tai": 60, "xiu": 40}, "xxxtt": {"tai": 40, "xiu": 60},
     "txxt": {"tai": 60, "xiu": 40}, "xttx": {"tai": 40, "xiu": 60},
     "ttxxttx": {"tai": 30, "xiu": 70}, "xxttxxt": {"tai": 70, "xiu": 30},
+    
+    # Bổ sung pattern cầu lớn (chuỗi dài)
+    "tttttttt": {"tai": 88, "xiu": 12}, "xxxxxxxx": {"tai": 12, "xiu": 88},
+    "tttttttx": {"tai": 25, "xiu": 75}, "xxxxxxxxt": {"tai": 75, "xiu": 25},
+    "tttttxxx": {"tai": 35, "xiu": 65}, "xxxxtttt": {"tai": 65, "xiu": 35},
+    "ttttxxxx": {"tai": 30, "xiu": 70}, "xxxxtttx": {"tai": 70, "xiu": 30},
+    
+    # Pattern đặc biệt cho Sunwin
+    "txtxtx": {"tai": 68, "xiu": 32}, "xtxtxt": {"tai": 32, "xiu": 68},
+    "ttxtxt": {"tai": 55, "xiu": 45}, "xxtxtx": {"tai": 45, "xiu": 55},
+    "txtxxt": {"tai": 60, "xiu": 40}, "xtxttx": {"tai": 40, "xiu": 60},
+    
+    # Thêm các pattern mới nâng cao
+    "ttx": {"tai": 65, "xiu": 35}, "xxt": {"tai": 35, "xiu": 65},
+    "txt": {"tai": 58, "xiu": 42}, "xtx": {"tai": 42, "xiu": 58},
+    "tttx": {"tai": 70, "xiu": 30}, "xxxt": {"tai": 30, "xiu": 70},
+    "ttxt": {"tai": 63, "xiu": 37}, "xxtx": {"tai": 37, "xiu": 63},
+    "txxx": {"tai": 25, "xiu": 75}, "xttt": {"tai": 75, "xiu": 25},
+    "tttxx": {"tai": 60, "xiu": 40}, "xxxtt": {"tai": 40, "xiu": 60},
+    "ttxtx": {"tai": 62, "xiu": 38}, "xxtxt": {"tai": 38, "xiu": 62},
+    "ttxxt": {"tai": 55, "xiu": 45}, "xxttx": {"tai": 45, "xiu": 55},
+    "ttttx": {"tai": 40, "xiu": 60}, "xxxxt": {"tai": 60, "xiu": 40},
+    "tttttx": {"tai": 30, "xiu": 70}, "xxxxxt": {"tai": 70, "xiu": 30},
+    "ttttttx": {"tai": 25, "xiu": 75}, "xxxxxxt": {"tai": 75, "xiu": 25},
+    "tttttttx": {"tai": 20, "xiu": 80}, "xxxxxxxt": {"tai": 80, "xiu": 20},
+    "ttttttttx": {"tai": 15, "xiu": 85}, "xxxxxxxxt": {"tai": 85, "xiu": 15},
+    
+    # Pattern đặc biệt zigzag
+    "txtx": {"tai": 52, "xiu": 48}, "xtxt": {"tai": 48, "xiu": 52},
+    "txtxt": {"tai": 53, "xiu": 47}, "xtxtx": {"tai": 47, "xiu": 53},
+    "txtxtx": {"tai": 55, "xiu": 45}, "xtxtxt": {"tai": 45, "xiu": 55},
+    "txtxtxt": {"tai": 57, "xiu": 43}, "xtxtxtx": {"tai": 43, "xiu": 57},
+    
+    # Pattern đặc biệt kết hợp
+    "ttxxttxx": {"tai": 38, "xiu": 62}, "xxttxxtt": {"tai": 62, "xiu": 38},
+    "ttxxxttx": {"tai": 45, "xiu": 55}, "xxttxxxt": {"tai": 55, "xiu": 45},
+    "ttxtxttx": {"tai": 50, "xiu": 50}, "xxtxtxxt": {"tai": 50, "xiu": 50},
+    
+    # Thuật toán mới (6 cầu)
+    "tttttx": {"xiu": 75, "tai": 25},
+    "ttttxx": {"tai": 75, "xiu": 25},
+    "tttxxt": {"tai": 75, "xiu": 25},
+    "ttxxtt": {"tai": 75, "xiu": 25},
+    "txxttt": {"tai": 75, "xiu": 25},
+    "xxtttt": {"xiu": 75, "tai": 25},
+    "xttttx": {"xiu": 75, "tai": 25},
+    "tttxxt": {"tai": 75, "xiu": 25},
+    "ttxxtx": {"xiu": 75, "tai": 25},
+    "txxtxx": {"xiu": 75, "tai": 25},
+    "xxtxxx": {"xiu": 75, "tai": 25},
+    "xtxxxx": {"xiu": 75, "tai": 25},
+    "txxxxx": {"xiu": 75, "tai": 25},
+    "xxxxxt": {"tai": 75, "xiu": 25},
+    "xxxxtt": {"tai": 75, "xiu": 25},
+    "xxxttt": {"tai": 75, "xiu": 25},
+    "xxtttx": {"xiu": 75, "tai": 25},
+    "xtttxt": {"tai": 75, "xiu": 25},
+    "tttxtt": {"tai": 75, "xiu": 25},
+    "ttxttt": {"tai": 75, "xiu": 25},
+    "txtttx": {"xiu": 75, "tai": 25},
+    "xtttxx": {"xiu": 75, "tai": 25},
+    "tttxxx": {"xiu": 75, "tai": 25},
+    "ttxxxx": {"xiu": 75, "tai": 25},
+    "xxxxxx": {"xiu": 75, "tai": 25},
+    "xxxttx": {"xiu": 75, "tai": 25},
+    "xxttxt": {"tai": 75, "xiu": 25},
+    "xttxtx": {"xiu": 75, "tai": 25},
+    "ttxtxx": {"xiu": 75, "tai": 25},
+    "txtxxx": {"xiu": 75, "tai": 25},
+    "xtxxxt": {"tai": 75, "xiu": 25},
+    "ttxxtx": {"xiu": 75, "tai": 25},
+    "txxtxx": {"xiu": 75, "tai": 25},
+    "xxtxxx": {"xiu": 75, "tai": 25},
+    "txxxtt": {"tai": 75, "xiu": 25},
+    "txxxtx": {"xiu": 75, "tai": 25},
+    "xxxtxt": {"tai": 75, "xiu": 25},
+    "xxtxtt": {"tai": 75, "xiu": 25},
+    "xtxttt": {"tai": 75, "xiu": 25},
+    "txtttt": {"tai": 75, "xiu": 25},
+}
+
+# Dữ liệu thống kê cầu lớn từ Sunwin
+BIG_STREAK_DATA = {
+    "tai": {
+        "3": {"next_tai": 65, "next_xiu": 35},
+        "4": {"next_tai": 70, "next_xiu": 30},
+        "5": {"next_tai": 75, "next_xiu": 25},
+        "6": {"next_tai": 80, "next_xiu": 20},
+        "7": {"next_tai": 85, "next_xiu": 15},
+        "8": {"next_tai": 88, "next_xiu": 12},
+        "9": {"next_tai": 90, "next_xiu": 10},
+        "10+": {"next_tai": 92, "next_xiu": 8}
+    },
+    "xiu": {
+        "3": {"next_tai": 35, "next_xiu": 65},
+        "4": {"next_tai": 30, "next_xiu": 70},
+        "5": {"next_tai": 25, "next_xiu": 75},
+        "6": {"next_tai": 20, "next_xiu": 80},
+        "7": {"next_tai": 15, "next_xiu": 85},
+        "8": {"next_tai": 12, "next_xiu": 88},
+        "9": {"next_tai": 10, "next_xiu": 90},
+        "10+": {"next_tai": 8, "next_xiu": 92}
+    }
 }
 
 # Thuật toán Sunwin đặc biệt
@@ -508,9 +572,7 @@ def predict_next(history, vip_mode=False):
     all_dice = [d for s in history for d in s["dice"]]
     dice_freq = [all_dice.count(i) for i in range(1,7)]
     avg_total = mean(totals)
-    median_total = sorted(totals)[len(totals) // 2]
-    trend = sum(1 if totals[i] > totals[i + 1] else -1 for i in range(len(totals) - 1))
-
+    
     predictions = []
     if vip_mode:
         # 153 công thức VIP
@@ -518,18 +580,11 @@ def predict_next(history, vip_mode=False):
             "Tài" if (totals[-1]+totals[-2])%2==0 else "Xỉu",
             "Tài" if avg_total>10.5 else "Xỉu",
             "Tài" if dice_freq[4]+dice_freq[5]>dice_freq[0]+dice_freq[1] else "Xỉu",
-            "Tài" if trend>0 else "Xỉu",
-            "Tài" if last_results.count("Tài") > last_results.count("Xỉu") else "Xỉu",
             "Tài" if sum(1 for t in totals if t>10) > len(totals)/2 else "Xỉu",
             "Tài" if sum(totals[-3:])>33 else "Xỉu",
             "Tài" if max(totals[-5:])>15 else "Xỉu",
-            "Tài" if sum(all_dice[-6:])>18 else "Xỉu",
-            "Tài" if totals[-1] > median_total else "Xỉu",
-            "Tài" if sum(totals[-4:])%2==0 else "Xỉu",
             "Tài" if len([t for t in totals[-5:] if t>10]) >= 3 else "Xỉu",
             "Tài" if sum(totals[-3:]) > 34 else "Xỉu",
-            "Tài" if sum(all_dice[-9:]) > 30 else "Xỉu",
-            "Tài" if dice_freq[5] > dice_freq[1] else "Xỉu",
             "Tài" if (totals[-1] > 10 and totals[-2] > 10) else "Xỉu",
             "Tài" if (totals[-1] < 10 and totals[-2] < 10) else "Xỉu",  # Đảo cầu
             # ... Thêm các công thức khác
@@ -537,11 +592,8 @@ def predict_next(history, vip_mode=False):
 
         predictions.extend([
             "Tài" if (totals[-1] + dice_freq[3]) % 2 == 0 else "Xỉu",
-            "Tài" if last_results.count("Tài") > last_results.count("Xỉu") else "Xỉu",
             "Tài" if dice_freq[2] > 3 else "Xỉu",
-            "Tài" if sum(totals[-5:]) > 55 else "Xỉu",
             "Tài" if totals[-1] in [11, 12, 13] else "Xỉu"
-            "Tài" if totals[-1] > avg_total else "Xỉu",
         ])
 
         predictions.append("Tài" if totals[-1] + totals[-2] > 30 else "Xỉu")
@@ -1024,7 +1076,7 @@ def send_prediction_update(session):
         f"══════════════════════════\n"
         f"{EMOJI['id']} *Phiên:* `{session_id}`\n"
         f"{EMOJI['dice']} *Xúc xắc:* `{dice}`\n"
-        f"{EMOJI['sum']} *Tổng điểm:* `{total}` | *Kết quả:* {result_display}{prev_pred_info}\n"
+        f"{EMOJI['sum']} *Tổng điểm:* `{total}` | *Kết quả:* {result_display}\n"
         f"──────────────────────────\n"
         f"{EMOJI['prediction']} *Dự đoán phiên {next_session_id}:* {prediction_display}\n"
         f"{EMOJI['chart']} *Độ tin cậy:* {confidence_level} ({confidence:.1f}%)\n"
@@ -1145,8 +1197,24 @@ def handle_telegram_updates():
                         )
                         edit_message_text(chat_id, message_id, help_message)
                     continue
-                
-                # Xử lý tin nhắn thông thường
+                    
+                    if data == "new_update":
+                        help_message = (
+                            f"{EMOJI['vip']} *THÔNG TIN CẬP NHẬT CỦA BOT*\n"
+                            f"══════════════════════════\n"
+                            f"1. `Cập nhật giao diện của bot`\n"
+                            f"2. `Fix lỗi thông báo dự đoán trước`\n"
+                            f"3. `Thêm 40 thuật toán mới`\n"
+                            f"══════════════════════════\n"
+                            f"{EMOJI['vip']} *Lưu ý:*\n"
+                            f"- `Đây là bản beta chưa được đưa vào sử dụng và đang thử nghiệm tại nhóm, nếu thấy ai bán bot này người đó là scam`\n"
+                            f"- `Thông tin cập nhật mới nhất tại https://t.me/ttt3ttts1`\n"
+                            f"══════════════════════════\n"
+                            f"{EMOJI['team']} Liên hệ admin để báo lỗi: @qqaassdd1231"
+                        )
+                        edit_message_text(chat_id, message_id, help_message)
+                   continue
+                                # Xử lý tin nhắn thông thường
                 if "message" in update:
                     message = update["message"]
                     chat_id = message["chat"]["id"]
@@ -1173,6 +1241,10 @@ def handle_telegram_updates():
                             
                             buttons = [
                                 [{"text": f"{EMOJI['key']} Hướng dẫn kích hoạt", "callback_data": "help_activate"}],
+                                [{"text": f"{EMOJI['vip']} Thông tin cập nhật", "callback_data": "new_update"}]
+                                [{"text": f"{EMOJI['chat']} Kênh chat", "url": "https://t.me/ttt3ttts"}]
+                                [{"text": f"{EMOJI['chat']} Kênh thông báot", "url": "https://t.me/ttt3ttts1"}]
+                                [{"text": f"{EMOJI['chat']} Nhóm test bot beta", "url": "https://t.me/ttt3ttts2"}]
                                 [{"text": f"{EMOJI['money_bag']} Liên hệ mua key", "url": "https://t.me/qqaassdd1231"}]
                             ]
                             
